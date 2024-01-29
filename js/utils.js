@@ -23,3 +23,19 @@ function getIntersection(A, B, C, D) {
     }
     return null;
 }
+
+function polysIntersect(poly1, poly2) {
+    for (let i = 0; i < poly1.length; i++) {
+        const poly1_point1 = poly1[i];
+        const poly1_point2 = poly1[(i + 1) % poly1.length];
+        for (let j = 0; j < poly2.length; j++) {
+            const poly2_point1 = poly2[j];
+            const poly2_point2 = poly2[(j + 1) % poly2.length];
+
+            const touch = getIntersection(poly1_point1, poly1_point2, poly2_point1, poly2_point2);
+            if (touch)
+                return true;
+        }
+    }
+    return false;
+}
