@@ -1,5 +1,5 @@
 class Car {
-    constructor(x, y, width, height, controlType, maxSpeed = 3) {
+    constructor(x, y, width, height, controlType, maxSpeed = 3, color = 'orange') {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -12,6 +12,7 @@ class Car {
         this.friction = 0.05;
         this.angle = 0;
 
+        this.color = color;
         this.damaged = false;
 
         if (controlType !== 'DUMMY')
@@ -19,20 +20,24 @@ class Car {
         this.controls = new Controls(controlType);
     }
 
-    update(roadBorders) {
+    update(roadBorders, traffic) {
         if (!this.damaged) {
             this.#move();
             this.polygon = this.#createPolygon();
-            this.damaged = this.#assessDamage(roadBorders);
+            this.damaged = this.#assessDamage(roadBorders, traffic);
         }
         if (this.sensor)
-            this.sensor.update(roadBorders);
+            this.sensor.update(roadBorders, traffic);
     }
 
-    #assessDamage(roadBorders) {
+    #assessDamage(roadBorders, traffic) {
         if (this.polygon.length > 0) {
             for (const roadBorder of roadBorders) {
                 if (polysIntersect(this.polygon, roadBorder))
+                    return true;
+            }
+            for (const otherCar of traffic) {
+                if (polysIntersect(this.polygon, otherCar.polygon))
                     return true;
             }
         }
@@ -103,7 +108,7 @@ class Car {
 
     draw(ctx) {
         if (this.polygon.length > 0) {
-            ctx.fillStyle = this.damaged ? 'red' : 'black';
+            ctx.fillStyle = this.damaged ? 'red' : this.color;
             ctx.beginPath();
             ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
             for (let i = 1; i < this.polygon.length; i++) {
