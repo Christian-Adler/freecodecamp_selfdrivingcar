@@ -25,18 +25,17 @@ if (savedBrain) {
     }
 }
 
-const trafficCarColor = 'orange';
 const traffic = [
-    new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
     // new Car(road.getLaneCenter(1), -300, 30, 50, "DUMMY", 2), // 3tes Auto
-    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2.0, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
-    new Car(road.getLaneCenter(2), -950, 30, 50, "DUMMY", 2.2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2.0, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2, getRandomColor(), useCarImg),
+    new Car(road.getLaneCenter(2), -950, 30, 50, "DUMMY", 2.2, getRandomColor(), useCarImg),
 ];
 
 animate();
