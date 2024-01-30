@@ -14,8 +14,14 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, 3);
 const cars = generateCars(100);
 let bestCar = cars[0];
 const savedBrain = localStorage.getItem("bestBrain");
-if (savedBrain)
-    bestCar.brain = JSON.parse(savedBrain);
+if (savedBrain) {
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
+        car.brain = JSON.parse(savedBrain);
+        if (i !== 0)
+            NeuralNetwork.mutate(car.brain, 0.2);
+    }
+}
 
 const traffic = [
     new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2),
