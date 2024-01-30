@@ -22,6 +22,9 @@ class Car {
             this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]); // last layer has 4 outputs (forward, backward, left, right)
         }
         this.controls = new Controls(controlType);
+
+        this.img = new Image();
+        this.img.src = 'resources/car.png'
     }
 
     update(roadBorders, traffic) {
@@ -122,15 +125,25 @@ class Car {
     }
 
     draw(ctx, drawSensor) {
-        if (this.polygon.length > 0) {
-            ctx.fillStyle = this.damaged ? 'red' : this.color;
-            ctx.beginPath();
-            ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
-            for (let i = 1; i < this.polygon.length; i++) {
-                const polygonEdge = this.polygon[i];
-                ctx.lineTo(polygonEdge.x, polygonEdge.y);
+        // draw by polygon
+        const drawByImage = true;
+        if (!drawByImage) {
+            if (this.polygon.length > 0) {
+                ctx.fillStyle = this.damaged ? 'red' : this.color;
+                ctx.beginPath();
+                ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
+                for (let i = 1; i < this.polygon.length; i++) {
+                    const polygonEdge = this.polygon[i];
+                    ctx.lineTo(polygonEdge.x, polygonEdge.y);
+                }
+                ctx.fill();
             }
-            ctx.fill();
+        } else {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(-this.angle);
+            ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.restore();
         }
 
         if (this.sensor && drawSensor)
