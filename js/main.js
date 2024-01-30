@@ -11,8 +11,9 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, 3);
 
 // const car = new Car(road.getLaneCenter(1), 100, 30, 50, "KEYS", 3, "blue");
 // const car = new Car(road.getLaneCenter(1), 100, 30, 50, "AI", 3, "blue");
-const N = 1;
-const cars = generateCars(N);
+const useCarImg = true; // Only low N if using img!
+const N = useCarImg ? 100 : 1000;
+const cars = generateCars(N, useCarImg);
 let bestCar = cars[0];
 const savedBrain = localStorage.getItem("bestBrain");
 if (savedBrain) {
@@ -24,14 +25,18 @@ if (savedBrain) {
     }
 }
 
+const trafficCarColor = 'orange';
 const traffic = [
-    new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    // new Car(road.getLaneCenter(1), -300, 30, 50, "DUMMY", 2), // 3tes Auto
+    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2.0, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2, trafficCarColor, useCarImg),
+    new Car(road.getLaneCenter(2), -950, 30, 50, "DUMMY", 2.2, trafficCarColor, useCarImg),
 ];
 
 animate();
@@ -44,10 +49,10 @@ function discard() {
     localStorage.removeItem('bestBrain');
 }
 
-function generateCars(N) {
+function generateCars(N, useCarImg) {
     const cars = [];
     for (let i = 0; i < N; i++) {
-        cars.push(new Car(road.getLaneCenter(1), 100, 30, 50, "AI", 3, "blue"));
+        cars.push(new Car(road.getLaneCenter(1), 100, 30, 50, "AI", 3, "purple", useCarImg));
     }
     return cars;
 }
