@@ -33,7 +33,7 @@ if (savedBrain) {
 }
 
 const traffic = [];
-const roadBorders = [];
+const roadBorders = world.buildings.map(b => b.base.segments).flat().map(s => [s.p1, s.p2]);
 
 animate();
 
