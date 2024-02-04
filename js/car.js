@@ -1,5 +1,5 @@
 class Car {
-    constructor(x, y, width, height, controlType, maxSpeed = 3, color = 'orange', useCarImg) {
+    constructor(x, y, width, height, controlType, angle = 0, maxSpeed = 3, color = 'orange', useCarImg) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -10,7 +10,7 @@ class Car {
         this.accelaration = 0.2;
         this.maxSpeed = maxSpeed;
         this.friction = 0.05;
-        this.angle = 0;
+        this.angle = angle;
 
         this.color = color;
         this.damaged = false;
