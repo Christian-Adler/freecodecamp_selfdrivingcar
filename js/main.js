@@ -68,6 +68,9 @@ function animate(time) {
     const carsMinY = Math.min(...cars.map(c => c.y));
     bestCar = cars.find(c => c.y === carsMinY);
 
+    world.cars = cars;
+    world.bestCar = bestCar;
+
     viewport.reset();
     const viewPoint = scale(viewport.getOffset(), -1);
     world.draw(carCtx, viewPoint);
@@ -75,13 +78,6 @@ function animate(time) {
     for (const c of traffic) {
         c.draw(carCtx);
     }
-
-    carCtx.globalAlpha = 0.2;
-    for (const car of cars) {
-        car.draw(carCtx);
-    }
-    carCtx.globalAlpha = 1;
-    bestCar.draw(carCtx, true)
 
     networkCtx.lineDashOffset = -time / 50;
     networkCtx.clearRect(0, 0, networkCanvas.width, networkCanvas.height);

@@ -23,6 +23,9 @@ class World {
 
         this.markings = [];
 
+        this.cars = [];
+        this.bestCar = null;
+
         this.frameCount = 0; // for traffic lights
 
         this.generate();
@@ -281,6 +284,14 @@ class World {
         for (const segment of this.roadBorders) {
             segment.draw(ctx, {color: 'white', width: 4});
         }
+
+        ctx.globalAlpha = 0.2;
+        for (const car of this.cars) {
+            car.draw(carCtx);
+        }
+        ctx.globalAlpha = 1;
+        if (this.bestCar)
+            this.bestCar.draw(ctx, true)
 
         const items = [...this.buildings, ...this.trees];
 
