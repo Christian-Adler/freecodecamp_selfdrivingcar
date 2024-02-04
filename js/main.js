@@ -73,7 +73,7 @@ function animate(time) {
 
     viewport.reset();
     const viewPoint = scale(viewport.getOffset(), -1);
-    world.draw(carCtx, viewPoint);
+    world.draw(carCtx, viewPoint, false);
 
     for (const c of traffic) {
         c.draw(carCtx);

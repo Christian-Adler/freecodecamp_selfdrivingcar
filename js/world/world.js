@@ -269,13 +269,14 @@ class World {
         this.frameCount++;
     }
 
-    draw(ctx, viewPoint) {
+    draw(ctx, viewPoint, showStartMarkings = true) {
         this.#updateLights();
         for (const envelope of this.envelopes) {
             envelope.draw(ctx, {fill: '#bbb', stroke: '#bbb', lineWidth: 15});
         }
         for (const marking of this.markings) {
-            marking.draw(ctx);
+            if (!(marking instanceof Start) || showStartMarkings)
+                marking.draw(ctx);
         }
 
         for (const segment of this.graph.segments) {
