@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Virtual World Editor</title>
+    <link rel="stylesheet" href="styles/style_world.css"/>
+</head>
+<body>
+<h1>World Editor</h1>
+<canvas id="canvas"></canvas>
+<div id="controls"><!-- https://emojipedia.org -->
+    <button onclick="dispose()">🗑️</button>
+    <button onclick="save()">💾</button>
+    <label for="fileInput" class="file-input-label">
+        📂
+        <input type="file" id="fileInput" accept=".world" onchange="load(event)">
+    </label>
+    &nbsp;
+    <button id="graphBtn" onclick="setMode('graph')">📐</button>
+
+    <button id="stopBtn" onclick="setMode('stop')">🛑</button>
+    <button id="yieldBtn" onclick="setMode('yield')">⚠️</button>
+    <button id="crossingBtn" onclick="setMode('crossing')">🚶</button>
+    <button id="parkingBtn" onclick="setMode('parking')">🅿️</button>
+    <button id="lightBtn" onclick="setMode('light')">🚦</button>
+    <button id="startBtn" onclick="setMode('start')">🚙</button>
+    <button id="targetBtn" onclick="setMode('target')">🎯</button>
+
+</div>
+
+<script src="js/world/world.js"></script>
+<script src="js/world/viewport.js"></script>
+<script src="js/world/markings/marking.js"></script>
+<script src="js/world/markings/stop.js"></script>
+<script src="js/world/markings/start.js"></script>
+<script src="js/world/markings/crossing.js"></script>
+<script src="js/world/markings/parking.js"></script>
+<script src="js/world/markings/light.js"></script>
+<script src="js/world/markings/target.js"></script>
+<script src="js/world/markings/yield.js"></script>
+<script src="js/world/editors/markingeditor.js"></script>
+<script src="js/world/editors/grapheditor.js"></script>
+<script src="js/world/editors/crossingeditor.js"></script>
+<script src="js/world/editors/stopeditor.js"></script>
+<script src="js/world/editors/starteditor.js"></script>
+<script src="js/world/editors/parkingEditor.js"></script>
+<script src="js/world/editors/lightEditor.js"></script>
+<script src="js/world/editors/targetEditor.js"></script>
+<script src="js/world/editors/yieldEditor.js"></script>
+<script src="js/world/items/tree.js"></script>
+<script src="js/world/items/building.js"></script>
+<script src="js/world/math/utils.js"></script>
+<script src="js/world/math/graph.js"></script>
+<script src="js/world/primitives/point.js"></script>
+<script src="js/world/primitives/segment.js"></script>
+<script src="js/world/primitives/polygon.js"></script>
+<script src="js/world/primitives/envelope.js"></script>
+<script src="js/world/main_world.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ class Start extends Marking {
     constructor(center, directionVector, width, height) {
         super(center, directionVector, width, height);
         this.img = new Image();
-        this.img.src = 'resources/car.png';
+        this.img.src = 'resources/car_world.png';
     }
 
     draw(ctx) {
