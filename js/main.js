@@ -71,6 +71,10 @@ function animate(time) {
     world.cars = cars;
     world.bestCar = bestCar;
 
+    // follow car (but panning is no longer possible)
+    viewport.offset.x = -bestCar.x;
+    viewport.offset.y = -bestCar.y;
+
     viewport.reset();
     const viewPoint = scale(viewport.getOffset(), -1);
     world.draw(carCtx, viewPoint, false);
