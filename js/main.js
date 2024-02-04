@@ -52,7 +52,7 @@ function generateCars(N, useCarImg) {
     const startAngle = -angle(dir) + Math.PI / 2;
     const cars = [];
     for (let i = 0; i < N; i++) {
-        cars.push(new Car(startPoint.x, startPoint.y, 30, 50, "KEYS", startAngle, 3, "purple", useCarImg));
+        cars.push(new Car(startPoint.x, startPoint.y, 30, 50, "AI", startAngle, 3, "purple", useCarImg));
     }
     return cars;
 }
@@ -65,8 +65,8 @@ function animate(time) {
         car.update(roadBorders, traffic);
     }
 
-    const carsMinY = Math.min(...cars.map(c => c.y));
-    bestCar = cars.find(c => c.y === carsMinY);
+    const carsMaxFitness = Math.max(...cars.map(c => c.fitness));
+    bestCar = cars.find(c => c.fitness === carsMaxFitness);
 
     world.cars = cars;
     world.bestCar = bestCar;
