@@ -86,6 +86,10 @@ function lerp2D(pointA, pointB, t) {
     return new Point(lerp(pointA.x, pointB.x, t), lerp(pointA.y, pointB.y, t));
 }
 
+function invLerp(A, B, v) {
+    return (v - A) / (B - A);
+}
+
 function getIntersection(A, B, C, D) {
     // see segment intersection freeCodeCamp.org youTube channel
     const tTop = (D.x - C.x) * (A.y - C.y) - (D.y - C.y) * (A.x - C.x);
@@ -118,6 +122,9 @@ function polysIntersect(poly1, poly2) {
     return false;
 }
 
+function degToRad(deg) {
+    return Math.cos(deg * Math.PI / 180);
+}
 
 function getRandomColor() {
     const hue = 290 + Math.random() * 260; // not blue

@@ -15,6 +15,7 @@
         📂
         <input type="file" id="fileInput" accept=".world" onchange="load(event)">
     </label>
+    <button onclick="openOsmPanel()">🗺️</button>
     &nbsp;
     <button id="graphBtn" onclick="setMode('graph')">📐</button>
 
@@ -26,6 +27,40 @@
     <button id="startBtn" onclick="setMode('start')">🚙</button>
     <button id="targetBtn" onclick="setMode('target')">🎯</button>
 
+    <div id="osmPanel" style="display: none;">
+        <!-- https://overpass-turbo.eu/ -->
+        <!--
+        [out:json];
+(
+  way['highway']
+  ['highway' !~'pedestrian']
+  ['highway' !~'footway']
+  ['highway' !~'cycleway']
+  ['highway' !~'path']
+  ['highway' !~'service']
+  ['highway' !~'corridor']
+  ['highway' !~'track']
+  ['highway' !~'steps']
+  ['highway' !~'raceway']
+  ['highway' !~'bridleway']
+  ['highway' !~'proposed']
+  ['highway' !~'construction']
+  ['highway' !~'elevator']
+  ['highway' !~'bus_guideway']
+  ['access' !~'private']
+  ['access' !~'no']
+  ({{bbox}});
+);
+out body;
+>;
+out skel;
+        -->
+        <label for="osmDataContainer">OpenStreetMap data</label><br><textarea id="osmDataContainer" rows="10" cols="50"
+                                                                              placeholder="Paste OSM data here"></textarea>
+        <br>
+        <button onclick="parseOsmData()">✔️</button>
+        <button onclick="closeOsmPanel()">❌</button>
+    </div>
 </div>
 
 <script src="js/world/world.js"></script>
@@ -51,6 +86,7 @@
 <script src="js/world/items/building.js"></script>
 <script src="js/world/math/utils.js"></script>
 <script src="js/world/math/graph.js"></script>
+<script src="js/world/math/osm.js"></script>
 <script src="js/world/primitives/point.js"></script>
 <script src="js/world/primitives/segment.js"></script>
 <script src="js/world/primitives/polygon.js"></script>

@@ -2,6 +2,7 @@ body {
     margin: 0;
     background: black;
     text-align: center;
+    overflow: hidden;
 }
 
 h1 {
@@ -30,4 +31,13 @@ button:hover {
 
 #canvas {
     background: #2a5;
+}
+
+#osmPanel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 7000px;
 }

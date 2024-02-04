@@ -102,3 +102,22 @@ function disableEditors() {
         tool.button.style.filter = 'grayscale(100%)';
     }
 }
+
+function openOsmPanel() {
+    elById('osmPanel').style.display = 'block';
+}
+
+function closeOsmPanel() {
+    elById('osmPanel').style.display = 'none';
+}
+
+function parseOsmData() {
+    const data = elById('osmDataContainer').value;
+    if (data === '') {
+        alert('Paste data first');
+        return;
+    }
+
+    Osm.parseRoads(JSON.parse(data));
+    closeOsmPanel();
+}
