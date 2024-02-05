@@ -57,20 +57,28 @@ class World {
     }
 
     generate() {
+        console.log(new Date(), 'Generate world...');
         // this.markings.length = 0;
         this.envelopes.length = 0;
 
+        console.log(new Date(), 'Generate envelops...');
         for (const seg of this.graph.segments) {
             this.envelopes.push(new Envelope(seg, this.roadWidth, this.roundness));
         }
 
+        console.log(new Date(), 'Generate road borders...');
         this.roadBorders = Polygon.union(this.envelopes.map(e => e.poly));
 
+        console.log(new Date(), 'Generate buildings...');
         this.buildings = this.#generateBuildings();
+        console.log(new Date(), 'Generate trees...');
         this.trees = this.#generateTrees();
 
+        console.log(new Date(), 'Generate lane guides...');
         this.laneGuides.length = 0;
         this.laneGuides.push(...this.#generateLaneGuides());
+
+        console.log(new Date(), 'Generate world finished.');
     }
 
     #generateLaneGuides() {
