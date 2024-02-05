@@ -1,13 +1,16 @@
 const carCanvas = window.document.getElementById('carCanvas');
 carCanvas.width = window.innerWidth - 330;
 carCanvas.height = window.innerHeight;
+const carCtx = carCanvas.getContext('2d');
 
 const networkCanvas = window.document.getElementById('networkCanvas');
 networkCanvas.width = 300;
-networkCanvas.height = window.innerHeight;
-
-const carCtx = carCanvas.getContext('2d');
+networkCanvas.height = window.innerHeight - 310;
 const networkCtx = networkCanvas.getContext('2d');
+
+const miniMapCanvas = window.document.getElementById('miniMapCanvas');
+miniMapCanvas.width = 300;
+miniMapCanvas.height = 300;
 
 // const worldString = localStorage.getItem('world');
 // const worldInfo = worldString ? JSON.parse(worldString) : null;
@@ -17,11 +20,12 @@ const networkCtx = networkCanvas.getContext('2d');
 // world already defined in big_world.js
 
 const viewport = new Viewport(carCanvas, world.zoom, world.offset);
+const miniMap = new MiniMap(miniMapCanvas, world.graph, 300);
 
 // const car = new Car(road.getLaneCenter(1), 100, 30, 50, "KEYS", 3, "blue");
 // const car = new Car(road.getLaneCenter(1), 100, 30, 50, "AI", 3, "blue");
-const useCarImg = true; // Only low N if using img!
-const N = 1; // useCarImg ? 100 : 1000;
+const useCarImg = false; // Only low N if using img!
+const N = 10; // useCarImg ? 100 : 1000;
 const cars = generateCars(N, useCarImg);
 let bestCar = cars[0];
 const savedBrain = localStorage.getItem("bestBrain");
@@ -30,7 +34,7 @@ if (savedBrain) {
         const car = cars[i];
         car.brain = JSON.parse(savedBrain);
         if (i !== 0)
-            NeuralNetwork.mutate(car.brain, 0.05);
+            NeuralNetwork.mutate(car.brain, 0.15);
     }
 }
 
@@ -80,6 +84,8 @@ function animate(time) {
     viewport.reset();
     const viewPoint = scale(viewport.getOffset(), -1);
     world.draw(carCtx, viewPoint, false);
+
+    miniMap.update(viewPoint);
 
     for (const c of traffic) {
         c.draw(carCtx);
