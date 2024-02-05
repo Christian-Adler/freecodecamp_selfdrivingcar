@@ -9,10 +9,12 @@ networkCanvas.height = window.innerHeight;
 const carCtx = carCanvas.getContext('2d');
 const networkCtx = networkCanvas.getContext('2d');
 
-const worldString = localStorage.getItem('world');
-const worldInfo = worldString ? JSON.parse(worldString) : null;
+// const worldString = localStorage.getItem('world');
+// const worldInfo = worldString ? JSON.parse(worldString) : null;
+//
+// const world = worldInfo ? World.load(worldInfo) : new World(new Graph());
 
-const world = worldInfo ? World.load(worldInfo) : new World(new Graph());
+// world already defined in big_world.js
 
 const viewport = new Viewport(carCanvas, world.zoom, world.offset);
 
