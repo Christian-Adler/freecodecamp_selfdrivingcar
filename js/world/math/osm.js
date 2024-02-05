@@ -38,8 +38,7 @@ const Osm = {
             }
         }
 
-        graph.points = points;
-        graph.segments = segments;
+        return {points, segments};
     }
 
 };

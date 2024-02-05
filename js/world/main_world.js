@@ -118,6 +118,8 @@ function parseOsmData() {
         return;
     }
 
-    Osm.parseRoads(JSON.parse(data));
+    const res = Osm.parseRoads(JSON.parse(data));
+    graph.points = res.points;
+    graph.segments = res.segments;
     closeOsmPanel();
 }
