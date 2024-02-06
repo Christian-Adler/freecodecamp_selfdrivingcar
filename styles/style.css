@@ -4,12 +4,14 @@ body {
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
 }
 
 #verticalButtons {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 button {
@@ -26,6 +28,13 @@ button:hover {
 
 #carCanvas {
     background: #2a5;
+}
+
+#utilsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
 #networkCanvas {
