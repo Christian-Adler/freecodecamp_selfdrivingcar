@@ -12,20 +12,20 @@ const miniMapCanvas = window.document.getElementById('miniMapCanvas');
 miniMapCanvas.width = 300;
 miniMapCanvas.height = 300;
 
-// const worldString = localStorage.getItem('world');
-// const worldInfo = worldString ? JSON.parse(worldString) : null;
-//
-// const world = worldInfo ? World.load(worldInfo) : new World(new Graph());
+if (!Settings.worldFromFile) {
+    const worldString = localStorage.getItem('world');
+    const worldInfo = worldString ? JSON.parse(worldString) : null;
 
-// world already defined in big_world.js
+    world = worldInfo ? World.load(worldInfo) : new World(new Graph());
+}
+// else
+//   world already defined in big_world.js
 
 const viewport = new Viewport(carCanvas, world.zoom, world.offset);
 const miniMap = new MiniMap(miniMapCanvas, world.graph, 300);
 
-// const car = new Car(road.getLaneCenter(1), 100, 30, 50, "KEYS", 3, "blue");
-// const car = new Car(road.getLaneCenter(1), 100, 30, 50, "AI", 3, "blue");
-const useCarImg = false; // Only low N if using img!
-const N = 10; // useCarImg ? 100 : 1000;
+const useCarImg = Settings.useCarImage; // Only low N if using img!
+const N = Settings.numCars; // useCarImg ? 100 : 1000;
 const cars = generateCars(N, useCarImg);
 let bestCar = cars[0];
 const savedBrain = localStorage.getItem("bestBrain");
@@ -58,7 +58,7 @@ function generateCars(N, useCarImg) {
     const startAngle = -angle(dir) + Math.PI / 2;
     const cars = [];
     for (let i = 0; i < N; i++) {
-        cars.push(new Car(startPoint.x, startPoint.y, 30, 50, "AI", startAngle, 3, "purple", useCarImg));
+        cars.push(new Car(startPoint.x, startPoint.y, 30, 50, Settings.controlType, startAngle, 3, "purple", useCarImg));
     }
     return cars;
 }
