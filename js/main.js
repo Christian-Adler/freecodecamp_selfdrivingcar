@@ -34,7 +34,7 @@ if (savedBrain) {
         const car = cars[i];
         car.brain = JSON.parse(savedBrain);
         if (i !== 0)
-            NeuralNetwork.mutate(car.brain, 0.15);
+            NeuralNetwork.mutate(car.brain, Settings.mutationFactor);
     }
 }
 
