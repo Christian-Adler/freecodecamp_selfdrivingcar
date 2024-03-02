@@ -4,10 +4,6 @@ canvas.height = 600;
 
 const ctx = canvas.getContext('2d');
 
-const worldString = localStorage.getItem('world');
-const worldInfo = worldString ? JSON.parse(worldString) : null;
-
-let world = worldInfo ? World.load(worldInfo) : new World(new Graph());
 const graph = world.graph;
 
 const viewport = new Viewport(canvas, world.zoom, world.offset);
@@ -58,7 +54,7 @@ function save() {
 
     const a = document.createElement('a');
     a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(
-        'if (!Settings || Settings.worldFromFile) world = World.load(' +
+        'const world = World.load(' +
         JSON.stringify(world)
         + ');'));
     const fileName = "world.js";
@@ -66,31 +62,6 @@ function save() {
     a.click();
 
     localStorage.setItem('world', JSON.stringify(world));
-}
-
-function load(event) {
-    const file = event.target.files[0];
-    if (!file) {
-        alert("No file selected!");
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.readAsText(file);
-
-    reader.onload = (evt) => {
-        const fileContent = evt.target.result;
-        const jsonString = fileContent.substring(
-            fileContent.indexOf('(') + 1,
-            fileContent.lastIndexOf(')')
-        );
-        const jsonData = JSON.parse(jsonString);
-
-        world = World.load(jsonData);
-
-        localStorage.setItem('world', JSON.stringify(world));
-        location.reload();
-    }
 }
 
 function setMode(mode) {

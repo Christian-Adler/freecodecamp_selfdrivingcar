@@ -12,15 +12,6 @@ const miniMapCanvas = window.document.getElementById('miniMapCanvas');
 miniMapCanvas.width = 300;
 miniMapCanvas.height = 300;
 
-if (!Settings.worldFromFile) {
-    const worldString = localStorage.getItem('world');
-    const worldInfo = worldString ? JSON.parse(worldString) : null;
-
-    world = worldInfo ? World.load(worldInfo) : new World(new Graph());
-}
-// else
-//   world already defined in big_world.js
-
 const viewport = new Viewport(carCanvas, world.zoom, world.offset);
 const miniMap = new MiniMap(miniMapCanvas, world.graph, 300);
 
