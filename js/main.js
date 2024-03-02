@@ -58,7 +58,9 @@ function generateCars(N, useCarImg) {
     const startAngle = -angle(dir) + Math.PI / 2;
     const cars = [];
     for (let i = 0; i < N; i++) {
-        cars.push(new Car(startPoint.x, startPoint.y, 30, 50, Settings.controlType, startAngle, 3, "purple", useCarImg));
+        const car = new Car(startPoint.x, startPoint.y, 30, 50, Settings.controlType, startAngle, 3, "purple", useCarImg);
+        car.load(carInfo)
+        cars.push(car);
     }
     return cars;
 }
@@ -73,13 +75,18 @@ function animate(time) {
 
     const carsMaxFitness = Math.max(...cars.map(c => c.fitness));
     bestCar = cars.find(c => c.fitness === carsMaxFitness);
+    if (!bestCar) bestCar = cars[0];
 
     world.cars = cars;
     world.bestCar = bestCar;
 
     // follow car (but panning is no longer possible)
-    viewport.offset.x = -bestCar.x;
-    viewport.offset.y = -bestCar.y;
+    if (bestCar) {
+        viewport.offset.x = -bestCar.x;
+        viewport.offset.y = -bestCar.y;
+    } else {
+        console.log("no best car?");
+    }
 
     viewport.reset();
     const viewPoint = scale(viewport.getOffset(), -1);
@@ -93,7 +100,8 @@ function animate(time) {
 
     networkCtx.lineDashOffset = -time / 50;
     networkCtx.clearRect(0, 0, networkCanvas.width, networkCanvas.height);
-    Visualizer.drawNetwork(networkCtx, bestCar.brain);
+    if (bestCar)
+        Visualizer.drawNetwork(networkCtx, bestCar.brain);
 
     requestAnimationFrame(animate);
 }
