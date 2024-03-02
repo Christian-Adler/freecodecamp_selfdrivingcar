@@ -57,8 +57,11 @@ function save() {
     world.offset = viewport.offset;
 
     const a = document.createElement('a');
-    a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(world)));
-    const fileName = "name.world";
+    a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(
+        'if (!Settings || Settings.worldFromFile) world = World.load(' +
+        JSON.stringify(world)
+        + ');'));
+    const fileName = "world.js";
     a.setAttribute('download', fileName);
     a.click();
 
