@@ -173,7 +173,7 @@ class World {
 
         const trees = [];
         let tryCount = 0;
-        while (tryCount < Settings.worldGenerateTreesTryCount) { // 10 instead of 100 - to be faster now - has to be improved
+        while (tryCount < (Settings ? Settings.worldGenerateTreesTryCount : 10)) { // 10 instead of 100 - to be faster now - has to be improved
             const p = new Point(
                 lerp(left, right, Math.random()),
                 lerp(bottom, top, Math.random())
