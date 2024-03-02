@@ -80,7 +80,11 @@ function load(event) {
 
     reader.onload = (evt) => {
         const fileContent = evt.target.result;
-        const jsonData = JSON.parse(fileContent);
+        const jsonString = fileContent.substring(
+            fileContent.indexOf('(') + 1,
+            fileContent.lastIndexOf(')')
+        );
+        const jsonData = JSON.parse(jsonString);
 
         world = World.load(jsonData);
 
