@@ -114,11 +114,13 @@ class GraphEditor {
             this.selected.draw(this.ctx, {outline: true});
         }
 
-        const path = this.graph.getShortestPath(this.start, this.end)
-        for (const point of path) {
-            point.draw(this.ctx, {size: 50, color: 'blue'});
-            if (point.prev) {
-                new Segment(point, point.prev).draw(this.ctx, {width: 5});
+        if (this.start && this.end) {
+            const path = this.graph.getShortestPath(this.start, this.end)
+            for (const point of path) {
+                point.draw(this.ctx, {size: 50, color: 'blue'});
+                if (point.prev) {
+                    new Segment(point, point.prev).draw(this.ctx, {width: 5});
+                }
             }
         }
     }
