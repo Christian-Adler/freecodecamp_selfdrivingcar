@@ -57,6 +57,7 @@ class Graph {
     }
 
     getShortestPath(start, end) {
+        if (!start || !end) return [];
 
         for (const point of this.points) {
             point.dist = Number.MAX_SAFE_INTEGER;
