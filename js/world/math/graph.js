@@ -56,6 +56,14 @@ class Graph {
         return this.segments.filter(s => s.includesPoint(point));
     }
 
+    getSegmentsLeavingFromPoint(point) {
+        return this.segments.filter(s => {
+            if (s.oneWay)
+                return s.p1.equals(point);
+            return s.includesPoint(point);
+        });
+    }
+
     getShortestPath(start, end) {
         if (!start || !end) return [];
 
@@ -67,7 +75,7 @@ class Graph {
         let currentPoint = start;
         currentPoint.dist = 0;
         while (!end.visited) {
-            const segs = this.getSegmentsWithPoint(currentPoint);
+            const segs = this.getSegmentsLeavingFromPoint(currentPoint);
             for (const seg of segs) {
                 const otherPoint = seg.p1.equals(currentPoint) ? seg.p2 : seg.p1;
                 if (currentPoint.dist + seg.length() < otherPoint.dist) {

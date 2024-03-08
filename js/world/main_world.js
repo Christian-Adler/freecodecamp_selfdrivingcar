@@ -29,7 +29,7 @@ function animate() {
     viewport.reset();
 
     if (graph.hash() !== oldGraphHash) {
-        world.generate();
+        // world.generate();
         oldGraphHash = graph.hash();
     }
     const viewPoint = scale(viewport.getOffset(), -1);
