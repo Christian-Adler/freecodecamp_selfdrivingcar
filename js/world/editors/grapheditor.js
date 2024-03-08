@@ -106,6 +106,14 @@ class GraphEditor {
             new Segment(this.selected, intent).draw(ctx, {color: 'rgba(0,0,0,0.5)', dash: [3, 3]});
             this.selected.draw(this.ctx, {outline: true});
         }
+
+        const path = this.graph.getShortestPath(this.graph.points[0], this.graph.points[this.graph.points.length - 1])
+        for (const point of path) {
+            point.draw(this.ctx, {size: 50, color: 'blue'});
+            if (point.prev) {
+                new Segment(point, point.prev).draw(this.ctx, {width: 5});
+            }
+        }
     }
 
 }
