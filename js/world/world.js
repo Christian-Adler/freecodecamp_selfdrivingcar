@@ -81,6 +81,18 @@ class World {
         console.log(new Date(), 'Generate world finished.');
     }
 
+    generateCorridor(start, end) {
+        const path = this.graph.getShortestPath(start, end);
+        const segs = [];
+        for (let i = 1; i < path.length; i++) {
+            segs.push(new Segment(path[i - 1], path[i]));
+        }
+
+        const tmpEnvelopes = segs.map(s => new Envelope(s, this.roadWidth, this.roundness));
+
+        this.corridor = tmpEnvelopes;
+    }
+
     #generateLaneGuides() {
         const tmpEnvelopes = [];
         for (const segment of this.graph.segments) {
@@ -293,6 +305,12 @@ class World {
         }
         for (const segment of this.roadBorders) {
             segment.draw(ctx, {color: 'white', width: 4});
+        }
+
+        if (this.corridor) {
+            for (const segment of this.corridor) {
+                segment.draw(ctx, {color: 'blue', width: 4});
+            }
         }
 
         ctx.globalAlpha = 0.2;
