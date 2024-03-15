@@ -36,7 +36,7 @@ class World {
         world.graph = Graph.load(info.graph);
 
         world.roadWidth = info.roadWidth;
-        world.roadRoundness = info.roadRoundness;
+        world.roadRoundness = info.roadRoundness || info.roundness;
         world.buildingWidth = info.buildingWidth;
         world.buildingMinimumLength = info.buildingMinimumLength;
         world.spacing = info.spacing;
