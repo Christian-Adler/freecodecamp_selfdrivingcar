@@ -115,7 +115,9 @@ class World {
 
         const tmpEnvelopes = segs.map(s => new Envelope(s, this.roadWidth, this.roadRoundness));
 
-        this.corridor = tmpEnvelopes;
+        const segments = Polygon.union(tmpEnvelopes.map(e => e.poly));
+
+        this.corridor = segments;
     }
 
     #generateLaneGuides() {
