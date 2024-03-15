@@ -39,13 +39,11 @@ class GraphEditor {
         this.canvas.addEventListener('contextmenu', this.boundContextMenu);
 
         window.addEventListener('keydown', (evt) => {
-            if (this.hovered) {
-                if (evt.key === 's') this.start = this.hovered;
-                else if (evt.key === 'e') this.end = this.hovered;
+            if (evt.key === 's') this.start = this.mouse;
+            else if (evt.key === 'e') this.end = this.mouse;
 
-                if (this.start && this.end)
-                    world.generateCorridor(this.start, this.end);
-            }
+            if (this.start && this.end)
+                world.generateCorridor(this.start, this.end);
         });
     }
 
