@@ -1,7 +1,7 @@
 class World {
     constructor(graph,
                 roadWidth = 100,
-                roundness = 10,
+                roadRoundness = 10,
                 buildingWidth = 150,
                 buildingMinimumLength = 150,
                 spacing = 50,
@@ -9,7 +9,7 @@ class World {
     ) {
         this.graph = graph;
         this.roadWidth = roadWidth;
-        this.roundness = roundness;
+        this.roadRoundness = roadRoundness;
         this.buildingWidth = buildingWidth;
         this.buildingMinimumLength = buildingMinimumLength;
         this.spacing = spacing;
@@ -36,7 +36,7 @@ class World {
         world.graph = Graph.load(info.graph);
 
         world.roadWidth = info.roadWidth;
-        world.roundness = info.roundness;
+        world.roadRoundness = info.roadRoundness;
         world.buildingWidth = info.buildingWidth;
         world.buildingMinimumLength = info.buildingMinimumLength;
         world.spacing = info.spacing;
@@ -63,7 +63,7 @@ class World {
 
         console.log(new Date(), 'Generate envelops...');
         for (const seg of this.graph.segments) {
-            this.envelopes.push(new Envelope(seg, this.roadWidth, this.roundness));
+            this.envelopes.push(new Envelope(seg, this.roadWidth, this.roadRoundness));
         }
 
         console.log(new Date(), 'Generate road borders...');
@@ -88,7 +88,7 @@ class World {
             segs.push(new Segment(path[i - 1], path[i]));
         }
 
-        const tmpEnvelopes = segs.map(s => new Envelope(s, this.roadWidth, this.roundness));
+        const tmpEnvelopes = segs.map(s => new Envelope(s, this.roadWidth, this.roadRoundness));
 
         this.corridor = tmpEnvelopes;
     }
@@ -100,7 +100,7 @@ class World {
                 new Envelope(
                     segment,
                     this.roadWidth / 2,
-                    this.roundness
+                    this.roadRoundness
                 )
             );
         }
@@ -114,7 +114,7 @@ class World {
                 new Envelope(
                     segment,
                     this.roadWidth + this.buildingWidth + this.spacing * 2,
-                    this.roundness
+                    this.roadRoundness
                 )
             );
         }
