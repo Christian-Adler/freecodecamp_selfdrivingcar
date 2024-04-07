@@ -32,6 +32,7 @@ if (target) {
 } else
     roadBorders = world.roadBorders.map(s => [s.p1, s.p2]);
 
+let frameCount = 0;
 animate();
 
 function save() {
@@ -57,6 +58,35 @@ function generateCars(N, useCarImg, type) {
     return cars;
 }
 
+function updateCarProgress(car) {
+    if (!car.finishTime) {
+        car.progress = 0;
+        const carSeg = getNearestSegment(car, world.corridor.skeleton);
+        for (let i = 0; i < world.corridor.skeleton.length; i++) {
+            const s = world.corridor.skeleton[i];
+            if (s.equals(carSeg)) {
+                const proj = s.projectPoint(car);
+                proj.point.draw(carCtx);
+                const firstPartOfSegment = new Segment(s.p1, proj.point);
+                firstPartOfSegment.draw(carCtx, {color: 'red', width: 5})
+                car.progress += firstPartOfSegment.length();
+                break;
+            } else {
+                s.draw(carCtx, {color: 'red', width: 5})
+                car.progress += s.length();
+            }
+        }
+        const totalDistance = world.corridor.skeleton.reduce((acc, s) => acc + s.length(), 0);
+        car.progress /= totalDistance;
+        if (car.progress > 1) {
+            car.progress = 1;
+            car.finishTime = frameCount;
+            console.log(car.finishTime);
+        }
+        console.log(car.progress);
+    }
+}
+
 function animate() {
     for (const car of cars) {
         car.update(roadBorders, []);
@@ -79,27 +109,9 @@ function animate() {
 
     miniMap.update(viewPoint);
 
-    myCar.progress = 0;
-    const carSeg = getNearestSegment(myCar, world.corridor.skeleton);
-    for (let i = 0; i < world.corridor.skeleton.length; i++) {
-        const s = world.corridor.skeleton[i];
-        if (s.equals(carSeg)) {
-            const proj = s.projectPoint(myCar);
-            proj.point.draw(carCtx);
-            const firstPartOfSegment = new Segment(s.p1, proj.point);
-            firstPartOfSegment.draw(carCtx, {color: 'red', width: 5})
-            myCar.progress += firstPartOfSegment.length();
-            break;
-        } else {
-            s.draw(carCtx, {color: 'red', width: 5})
-            myCar.progress += s.length();
-        }
-    }
-    const totalDistance = world.corridor.skeleton.reduce((acc, s) => acc + s.length(), 0);
-    myCar.progress /= totalDistance;
-    if (myCar.progress > 1)
-        myCar.progress = 1;
-    console.log(myCar.progress);
+    updateCarProgress(myCar);
+
+    frameCount++;
 
     requestAnimationFrame(animate);
 }
