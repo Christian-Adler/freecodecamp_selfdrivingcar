@@ -79,16 +79,27 @@ function animate() {
 
     miniMap.update(viewPoint);
 
+    myCar.progress = 0;
     const carSeg = getNearestSegment(myCar, world.corridor.skeleton);
     for (let i = 0; i < world.corridor.skeleton.length; i++) {
         const s = world.corridor.skeleton[i];
-        s.draw(carCtx, {color: 'red', width: 5})
         if (s.equals(carSeg)) {
             const proj = s.projectPoint(myCar);
             proj.point.draw(carCtx);
+            const firstPartOfSegment = new Segment(s.p1, proj.point);
+            firstPartOfSegment.draw(carCtx, {color: 'red', width: 5})
+            myCar.progress += firstPartOfSegment.length();
             break;
+        } else {
+            s.draw(carCtx, {color: 'red', width: 5})
+            myCar.progress += s.length();
         }
     }
+    const totalDistance = world.corridor.skeleton.reduce((acc, s) => acc + s.length(), 0);
+    myCar.progress /= totalDistance;
+    if (myCar.progress > 1)
+        myCar.progress = 1;
+    console.log(myCar.progress);
 
     requestAnimationFrame(animate);
 }
