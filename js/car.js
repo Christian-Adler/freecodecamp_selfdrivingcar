@@ -43,7 +43,8 @@ class Car {
                 maskCtx.globalCompositeOperation = 'destination-atop';
                 maskCtx.drawImage(this.img, 0, 0, this.width, this.height);
             };
-        }
+        } else
+            this.polygon = this.#createPolygon();
     }
 
     load(info) {

@@ -50,6 +50,10 @@ if (target) {
     roadBorders = world.roadBorders.map(s => [s.p1, s.p2]);
 
 let frameCount = 0;
+let started = false;
+
+startCounter();
+
 animate();
 
 function save() {
@@ -74,6 +78,25 @@ function generateCars(N, useCarImg, type) {
         cars.push(car);
     }
     return cars;
+}
+
+function startCounter() {
+    const counter = document.getElementById('counter');
+    counter.innerText = '3';
+    setTimeout(() => {
+        counter.innerText = '2';
+        setTimeout(() => {
+            counter.innerText = '1';
+            setTimeout(() => {
+                counter.innerText = 'GO';
+                frameCount = 0;
+                started = true;
+                setTimeout(() => {
+                    counter.innerText = '';
+                }, 300);
+            }, 1000);
+        }, 1000);
+    }, 1000);
 }
 
 function updateCarProgress(car) {
@@ -104,8 +127,10 @@ function updateCarProgress(car) {
 }
 
 function animate() {
-    for (const car of cars) {
-        car.update(roadBorders, []);
+    if (started) {
+        for (const car of cars) {
+            car.update(roadBorders, []);
+        }
     }
 
     world.cars = cars;
@@ -142,12 +167,13 @@ function animate() {
         stat.innerText = (i + 1) + ': '
             // + (car.progress * 100).toFixed(1) + '% ';
             + car.name
-            + (car.damaged ? ' 💀' : '');
+            + ((car.damaged && !car.finishTime) ? ' 💀' : '');
         if (car.finishTime)
             stat.innerHTML += '<span style="float: right">' + (car.finishTime / 60).toFixed(1) + 's</span>'; // approx 60fps -> seconds
     }
 
-    frameCount++;
+    if (started)
+        frameCount++;
 
     requestAnimationFrame(animate);
 }
