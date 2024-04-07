@@ -36,6 +36,7 @@ class World {
         world.graph = Graph.load(info.graph);
 
         world.roadWidth = info.roadWidth;
+        // noinspection JSUnresolvedReference
         world.roadRoundness = info.roadRoundness || info.roundness;
         world.buildingWidth = info.buildingWidth;
         world.buildingMinimumLength = info.buildingMinimumLength;
@@ -117,7 +118,7 @@ class World {
 
         const segments = Polygon.union(tmpEnvelopes.map(e => e.poly));
 
-        this.corridor = segments;
+        this.corridor = {borders: segments, skeleton: segs};
     }
 
     #generateLaneGuides() {
@@ -335,7 +336,7 @@ class World {
         }
 
         if (this.corridor) {
-            for (const segment of this.corridor) {
+            for (const segment of this.corridor.borders) {
                 segment.draw(ctx, {color: 'blue', width: 4});
             }
         }

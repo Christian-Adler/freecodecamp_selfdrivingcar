@@ -28,7 +28,7 @@ let roadBorders;
 const target = world.markings.find(m => m instanceof Target);
 if (target) {
     world.generateCorridor(myCar, target.center);
-    roadBorders = world.corridor.map(s => [s.p1, s.p2]);
+    roadBorders = world.corridor.borders.map(s => [s.p1, s.p2]);
 } else
     roadBorders = world.roadBorders.map(s => [s.p1, s.p2]);
 
@@ -78,6 +78,17 @@ function animate() {
     world.draw(carCtx, viewPoint, false);
 
     miniMap.update(viewPoint);
+
+    const carSeg = getNearestSegment(myCar, world.corridor.skeleton);
+    for (let i = 0; i < world.corridor.skeleton.length; i++) {
+        const s = world.corridor.skeleton[i];
+        s.draw(carCtx, {color: 'red', width: 5})
+        if (s.equals(carSeg)) {
+            const proj = s.projectPoint(myCar);
+            proj.point.draw(carCtx);
+            break;
+        }
+    }
 
     requestAnimationFrame(animate);
 }
