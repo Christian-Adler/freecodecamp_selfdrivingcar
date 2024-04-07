@@ -69,6 +69,7 @@ function generateCars(N, useCarImg, type) {
     for (let i = 0; i < N; i++) {
         const color = type === 'AI' ? getRandomColor() : 'purple';
         const car = new Car(startPoint.x, startPoint.y, 30, 50, type, startAngle, 3, color, useCarImg);
+        car.name = type === 'AI' ? 'AI_' + i : 'Me';
         car.load(carInfo)
         cars.push(car);
     }
@@ -138,9 +139,12 @@ function animate() {
         stat.style.color = car.color;
         stat.style.backgroundColor = car.type === 'AI' ? 'black' : 'white';
 
-        stat.innerText = (i + 1) + ': ' + (cars[i].progress * 100).toFixed(1) + '% ';
+        stat.innerText = (i + 1) + ': '
+            // + (car.progress * 100).toFixed(1) + '% ';
+            + car.name
+            + (car.damaged ? ' 💀' : '');
         if (car.finishTime)
-            stat.innerText += ' ' + (car.finishTime / 60).toFixed(2) + 's'; // approx 60fps -> seconds
+            stat.innerHTML += '<span style="float: right">' + (car.finishTime / 60).toFixed(1) + 's</span>'; // approx 60fps -> seconds
     }
 
     frameCount++;
