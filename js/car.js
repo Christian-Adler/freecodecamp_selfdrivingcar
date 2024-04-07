@@ -154,9 +154,9 @@ class Car {
         this.y -= Math.cos(this.angle) * this.speed;
     }
 
-    draw(ctx, drawSensor) {
-        if (this.sensor && drawSensor)
-            this.sensor.draw(ctx);
+    draw(ctx, drawSensor = false) {
+        // if (this.sensor && drawSensor)
+        //     this.sensor.draw(ctx);
 
         if (this.img) {
             ctx.save();
