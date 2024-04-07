@@ -98,9 +98,7 @@ function updateCarProgress(car) {
         if (car.progress > 1) {
             car.progress = 1;
             car.finishTime = frameCount;
-            console.log(car.finishTime);
         }
-        console.log(car.progress);
     }
 }
 
@@ -138,7 +136,11 @@ function animate() {
         updateCarProgress(car);
         const stat = document.getElementById('stat_' + i);
         stat.style.color = car.color;
-        stat.innerText = (i + 1) + ' : ' + (cars[i].progress * 100).toFixed(1) + '%';
+        stat.style.backgroundColor = car.type === 'AI' ? 'black' : 'white';
+
+        stat.innerText = (i + 1) + ': ' + (cars[i].progress * 100).toFixed(1) + '% ';
+        if (car.finishTime)
+            stat.innerText += ' ' + (car.finishTime / 60).toFixed(2) + 's'; // approx 60fps -> seconds
     }
 
     frameCount++;
