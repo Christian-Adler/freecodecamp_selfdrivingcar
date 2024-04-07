@@ -13,6 +13,7 @@ class Car {
         this.angle = angle;
 
         this.color = color;
+        this.type = controlType;
         this.damaged = false;
 
         this.fitness = 0;

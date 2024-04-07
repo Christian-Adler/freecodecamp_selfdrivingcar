@@ -1,14 +1,21 @@
+const rightPanelWidth = 300;
+
 const carCanvas = window.document.getElementById('carCanvas');
 carCanvas.width = window.innerWidth;
 carCanvas.height = window.innerHeight;
 const carCtx = carCanvas.getContext('2d');
 
 const miniMapCanvas = window.document.getElementById('miniMapCanvas');
-miniMapCanvas.width = 300;
-miniMapCanvas.height = 300;
+miniMapCanvas.width = rightPanelWidth;
+miniMapCanvas.height = rightPanelWidth;
+
+const statisticsDiv = window.document.getElementById('statistics');
+statisticsDiv.style.width = rightPanelWidth + 'px';
+statisticsDiv.style.height = window.innerHeight - rightPanelWidth - 60 + 'px';
+
 
 const viewport = new Viewport(carCanvas, world.zoom, world.offset);
-const miniMap = new MiniMap(miniMapCanvas, world.graph, 300);
+const miniMap = new MiniMap(miniMapCanvas, world.graph, rightPanelWidth);
 
 const useCarImg = Settings.useCarImage; // Only low N if using img!
 const N = Settings.numCars; // useCarImg ? 100 : 1000;
@@ -22,6 +29,16 @@ if (savedBrain) {
         if (i > 1) // 0 == myCar -> 1 is saved brain - others mutate
             NeuralNetwork.mutate(car.brain, Settings.mutationFactor);
     }
+}
+
+for (let i = 0; i < cars.length; i++) {
+    const car = cars[i];
+    const div = document.createElement('div');
+    div.id = 'stat_' + i;
+    div.innerText = i;
+    div.style.color = car.color;
+    div.classList.add('stat');
+    statisticsDiv.appendChild(div);
 }
 
 let roadBorders;
@@ -66,13 +83,13 @@ function updateCarProgress(car) {
             const s = world.corridor.skeleton[i];
             if (s.equals(carSeg)) {
                 const proj = s.projectPoint(car);
-                proj.point.draw(carCtx);
+                // proj.point.draw(carCtx);
                 const firstPartOfSegment = new Segment(s.p1, proj.point);
-                firstPartOfSegment.draw(carCtx, {color: 'red', width: 5})
+                // firstPartOfSegment.draw(carCtx, {color: 'red', width: 5})
                 car.progress += firstPartOfSegment.length();
                 break;
             } else {
-                s.draw(carCtx, {color: 'red', width: 5})
+                // s.draw(carCtx, {color: 'red', width: 5})
                 car.progress += s.length();
             }
         }
@@ -109,7 +126,20 @@ function animate() {
 
     miniMap.update(viewPoint);
 
-    updateCarProgress(myCar);
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
+        updateCarProgress(car);
+    }
+
+    cars.sort((a, b) => b.progress - a.progress);
+
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
+        updateCarProgress(car);
+        const stat = document.getElementById('stat_' + i);
+        stat.style.color = car.color;
+        stat.innerText = (i + 1) + ' : ' + (cars[i].progress * 100).toFixed(1) + '%';
+    }
 
     frameCount++;
 
