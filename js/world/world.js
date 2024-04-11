@@ -82,7 +82,7 @@ class World {
         console.log(new Date(), 'Generate world finished.');
     }
 
-    generateCorridor(start, end) {
+    generateCorridor(start, end, extendEnd = false) {
         const startSeg = getNearestSegment(start, this.graph.segments);
         const endSeg = getNearestSegment(end, this.graph.segments);
 
@@ -114,7 +114,17 @@ class World {
             segs.push(new Segment(path[i - 1], path[i]));
         }
 
+        // "extend the corridor at the end"
+        if (extendEnd) {
+            const lastSeg = segs[segs.length - 1];
+            const lastSegDir = lastSeg.directionVector();
+            segs.push(new Segment(lastSeg.p2, add(lastSeg.p2, scale(lastSegDir, this.roadWidth * 1.5))));
+        }
+
         const tmpEnvelopes = segs.map(s => new Envelope(s, this.roadWidth, this.roadRoundness));
+
+        if (extendEnd)
+            segs.pop();
 
         const segments = Polygon.union(tmpEnvelopes.map(e => e.poly));
 
