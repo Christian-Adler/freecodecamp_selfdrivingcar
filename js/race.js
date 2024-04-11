@@ -83,14 +83,19 @@ function generateCars(N, useCarImg, type) {
 function startCounter() {
     const counter = document.getElementById('counter');
     counter.innerText = '3';
+    beep(400);
     setTimeout(() => {
         counter.innerText = '2';
+        beep(400);
         setTimeout(() => {
             counter.innerText = '1';
+            beep(400);
             setTimeout(() => {
-                counter.innerText = 'GO';
+                counter.innerText = 'GO!';
+                beep(700);
                 frameCount = 0;
                 started = true;
+                myCar.engine = new Engine();
                 setTimeout(() => {
                     counter.innerText = '';
                 }, 300);

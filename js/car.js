@@ -18,6 +18,8 @@ class Car {
 
         this.fitness = 0;
 
+        this.engine = null;
+
         this.useBrain = controlType === 'AI';
 
         if (controlType !== 'DUMMY') {
@@ -64,6 +66,8 @@ class Car {
             this.fitness += this.speed;
             this.polygon = this.#createPolygon();
             this.damaged = this.#assessDamage(roadBorders, traffic);
+            if (this.damaged)
+                this.speed = 0;
         }
         if (this.sensor) {
             this.sensor.update(roadBorders, traffic);
@@ -77,6 +81,12 @@ class Car {
                 this.controls.right = outputs[2];
                 this.controls.reverse = outputs[3];
             }
+        }
+
+        if (this.engine) {
+            let percent = Math.abs(this.speed / this.maxSpeed);
+            this.engine.setVolume(percent);
+            this.engine.setPitch(percent);
         }
     }
 
