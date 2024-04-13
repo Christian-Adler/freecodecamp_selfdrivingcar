@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Selfdriving Car - Simulator</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<canvas id="carCanvas"></canvas>
+<div id="verticalButtons">
+    <!--https://emojipedia.org/-->
+    <button onclick="save()">💾</button>
+    <button onclick="discard()">🗑️</button>
+</div>
+<div id="utilsContainer">
+    <canvas id="networkCanvas"></canvas>
+    <canvas id="miniMapCanvas"></canvas>
+</div>
+
+
+<script src="world/settings.js"></script>
+<script src="world/js/world.js"></script>
+<script src="world/js/viewport.js"></script>
+<script src="world/js/markings/marking.js"></script>
+<script src="world/js/markings/stop.js"></script>
+<script src="world/js/markings/start.js"></script>
+<script src="world/js/markings/crossing.js"></script>
+<script src="world/js/markings/parking.js"></script>
+<script src="world/js/markings/light.js"></script>
+<script src="world/js/markings/target.js"></script>
+<script src="world/js/markings/yield.js"></script>
+<script src="world/js/items/tree.js"></script>
+<script src="world/js/items/building.js"></script>
+<script src="world/js/math/utils.js"></script>
+<script src="world/js/math/graph.js"></script>
+<script src="world/js/primitives/point.js"></script>
+<script src="world/js/primitives/segment.js"></script>
+<script src="world/js/primitives/polygon.js"></script>
+<script src="world/js/primitives/envelope.js"></script>
+
+<!--<script src="world/js/saves/big_world.js"></script>-->
+<script src="world/saves/pathfinding_world.js"></script>
+<!--<script src="world/js/saves/big_world_with_target.js"></script>-->
+
+<script src="saves/saved_car.js"></script>
+
+
+<script src="minimap.js"></script>
+<script src="network.js"></script>
+<script src="visualizer.js"></script>
+<script src="sensor.js"></script>
+<script src="controls.js"></script>
+<script src="car.js"></script>
+<script src="sim.js"></script>
+</body>
+</html>
