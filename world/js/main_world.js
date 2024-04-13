@@ -9,14 +9,14 @@ const graph = world.graph;
 const viewport = new Viewport(canvas, world.zoom, world.offset);
 
 const tools = {
-    graph: {button: elById('graphBtn'), editor: new GraphEditor(viewport, graph)},
-    stop: {button: elById('stopBtn'), editor: new StopEditor(viewport, world)},
-    crossing: {button: elById('crossingBtn'), editor: new CrossingEditor(viewport, world)},
-    start: {button: elById('startBtn'), editor: new StartEditor(viewport, world)},
-    parking: {button: elById('parkingBtn'), editor: new ParkingEditor(viewport, world)},
-    light: {button: elById('lightBtn'), editor: new LightEditor(viewport, world)},
-    target: {button: elById('targetBtn'), editor: new TargetEditor(viewport, world)},
-    yield: {button: elById('yieldBtn'), editor: new YieldEditor(viewport, world)},
+  graph: {button: elById('graphBtn'), editor: new GraphEditor(viewport, graph)},
+  stop: {button: elById('stopBtn'), editor: new StopEditor(viewport, world)},
+  crossing: {button: elById('crossingBtn'), editor: new CrossingEditor(viewport, world)},
+  start: {button: elById('startBtn'), editor: new StartEditor(viewport, world)},
+  parking: {button: elById('parkingBtn'), editor: new ParkingEditor(viewport, world)},
+  light: {button: elById('lightBtn'), editor: new LightEditor(viewport, world)},
+  target: {button: elById('targetBtn'), editor: new TargetEditor(viewport, world)},
+  yield: {button: elById('yieldBtn'), editor: new YieldEditor(viewport, world)},
 };
 
 setMode('graph');
@@ -26,78 +26,78 @@ let oldGraphHash = graph.hash();
 animate();
 
 function animate() {
-    viewport.reset();
+  viewport.reset();
 
-    if (graph.hash() !== oldGraphHash) {
-        // world.generate();
-        oldGraphHash = graph.hash();
-    }
-    const viewPoint = scale(viewport.getOffset(), -1);
-    world.draw(ctx, viewPoint);
+  if (graph.hash() !== oldGraphHash) {
+    // world.generate();
+    oldGraphHash = graph.hash();
+  }
+  const viewPoint = scale(viewport.getOffset(), -1);
+  world.draw(ctx, viewPoint);
 
-    ctx.globalAlpha = 0.8;
-    for (const tool of Object.values(tools)) {
-        tool.editor.display();
-    }
+  ctx.globalAlpha = 0.8;
+  for (const tool of Object.values(tools)) {
+    tool.editor.display();
+  }
 
-    requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 }
 
 function dispose() {
-    tools['graph'].editor.dispose();
-    world.markings.length = 0;
+  tools['graph'].editor.dispose();
+  world.markings.length = 0;
 }
 
 function save() {
-    world.zoom = viewport.zoom;
-    world.offset = viewport.offset;
+  world.zoom = viewport.zoom;
+  world.offset = viewport.offset;
 
-    const a = document.createElement('a');
-    a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(
-        'const world = World.load(' +
-        JSON.stringify(world)
-        + ');'));
-    const fileName = "world.js";
-    a.setAttribute('download', fileName);
-    a.click();
+  const a = document.createElement('a');
+  a.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(
+      'const world = World.load(' +
+      JSON.stringify(world)
+      + ');'));
+  const fileName = "world.js";
+  a.setAttribute('download', fileName);
+  a.click();
 
-    localStorage.setItem('world', JSON.stringify(world));
+  localStorage.setItem('world', JSON.stringify(world));
 }
 
 function setMode(mode) {
-    disableEditors();
+  disableEditors();
 
-    const tool = tools[mode];
-    tool.button.style.backgroundColor = 'white';
-    tool.button.style.filter = '';
-    tool.editor.enable();
+  const tool = tools[mode];
+  tool.button.style.backgroundColor = 'white';
+  tool.button.style.filter = '';
+  tool.editor.enable();
 }
 
 function disableEditors() {
-    for (const tool of Object.values(tools)) {
-        tool.editor.disable();
-        tool.button.style.backgroundColor = 'gray';
-        tool.button.style.filter = 'grayscale(100%)';
-    }
+  for (const tool of Object.values(tools)) {
+    tool.editor.disable();
+    tool.button.style.backgroundColor = 'gray';
+    tool.button.style.filter = 'grayscale(100%)';
+  }
 }
 
 function openOsmPanel() {
-    elById('osmPanel').style.display = 'block';
+  elById('osmPanel').style.display = 'block';
 }
 
 function closeOsmPanel() {
-    elById('osmPanel').style.display = 'none';
+  elById('osmPanel').style.display = 'none';
 }
 
 function parseOsmData() {
-    const data = elById('osmDataContainer').value;
-    if (data === '') {
-        alert('Paste data first');
-        return;
-    }
+  const data = elById('osmDataContainer').value;
+  if (data === '') {
+    alert('Paste data first');
+    return;
+  }
 
-    const res = Osm.parseRoads(JSON.parse(data));
-    graph.points = res.points;
-    graph.segments = res.segments;
-    closeOsmPanel();
+  const res = Osm.parseRoads(JSON.parse(data));
+  graph.points = res.points;
+  graph.segments = res.segments;
+  closeOsmPanel();
 }

@@ -7,114 +7,114 @@
 <body>
 <canvas id="soundCanvas" style="border: 1px solid;" width="1000" height="255"></canvas>
 <script>
-    let soundCanvas = document.getElementById('soundCanvas');
-    const ctx = soundCanvas.getContext('2d');
-    let analyzer = null;
-    let enginge = null;
+  let soundCanvas = document.getElementById('soundCanvas');
+  const ctx = soundCanvas.getContext('2d');
+  let analyzer = null;
+  let enginge = null;
 
-    function playCountdown() {
+  function playCountdown() {
+    beep(400);
+    setTimeout(() => {
+      beep(400);
+      setTimeout(() => {
         beep(400);
         setTimeout(() => {
-            beep(400);
-            setTimeout(() => {
-                beep(400);
-                setTimeout(() => {
-                    beep(700);
-                }, 1000);
-            }, 1000);
+          beep(700);
         }, 1000);
+      }, 1000);
+    }, 1000);
+  }
+
+  window.addEventListener('click', () => {
+    // playCountdown();
+
+    engine = new Engine();
+  });
+
+  animate();
+
+  function animate() {
+    ctx.clearRect(0, 0, soundCanvas.width, soundCanvas.height);
+
+    if (analyzer) {
+      const data = new Uint8Array(analyzer.fftSize);
+      analyzer.getByteTimeDomainData(data);
+
+      ctx.beginPath();
+      for (let i = 0; i < data.length; i++) {
+        const x = soundCanvas.width * i / data.length;
+        const y = data[i];
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
     }
 
-    window.addEventListener('click', () => {
-        // playCountdown();
+    requestAnimationFrame(animate);
+  }
 
-        engine = new Engine();
-    });
+  function beep(frequency) {
+    const audioContext = new window.AudioContext();
+    const osc = audioContext.createOscillator();
+    const envelope = audioContext.createGain();
 
-    animate();
+    osc.frequency.setValueAtTime(frequency, 0);
+    osc.connect(envelope);
+    osc.start();
+    osc.stop(0.4)
 
-    function animate() {
-        ctx.clearRect(0, 0, soundCanvas.width, soundCanvas.height);
+    envelope.gain.value = 0; // volume
+    envelope.gain.linearRampToValueAtTime(1, 0.1);
+    envelope.gain.linearRampToValueAtTime(0, 0.4);
+    // envelope.gain.exponentialRampToValueAtTime(1, 0.1);
+    // envelope.gain.exponentialRampToValueAtTime(0.01, 0.4);
+    envelope.connect(audioContext.destination);
 
-        if (analyzer) {
-            const data = new Uint8Array(analyzer.fftSize);
-            analyzer.getByteTimeDomainData(data);
+    analyzer = audioContext.createAnalyser();
+    analyzer.fftSize = 2 ** 15;
+    // osc.connect(analyzer);
+    envelope.connect(analyzer);
 
-            ctx.beginPath();
-            for (let i = 0; i < data.length; i++) {
-                const x = soundCanvas.width * i / data.length;
-                const y = data[i];
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.stroke();
-        }
 
-        requestAnimationFrame(animate);
+  }
+
+  class Engine {
+    constructor() {
+      const audioContext = new window.AudioContext();
+      const osc = audioContext.createOscillator();
+      const masterGain = audioContext.createGain();
+
+      osc.frequency.setValueAtTime(200, 0);
+      osc.connect(masterGain);
+      osc.start();
+
+      masterGain.gain.value = 0.2; // volume
+      masterGain.connect(audioContext.destination);
+
+      const lfo = audioContext.createOscillator(); // low frequency osci
+      lfo.frequency.setValueAtTime(30, 0);
+      const mod = audioContext.createGain();
+      mod.gain.value = 60;
+      lfo.connect(mod);
+      mod.connect(osc.frequency);
+      lfo.start();
+
+      this.volumne = masterGain.gain;
+      this.frequency = osc.frequency;
+
+      analyzer = audioContext.createAnalyser();
+      analyzer.fftSize = 2 ** 15;
+      masterGain.connect(analyzer);
     }
 
-    function beep(frequency) {
-        const audioContext = new window.AudioContext();
-        const osc = audioContext.createOscillator();
-        const envelope = audioContext.createGain();
-
-        osc.frequency.setValueAtTime(frequency, 0);
-        osc.connect(envelope);
-        osc.start();
-        osc.stop(0.4)
-
-        envelope.gain.value = 0; // volume
-        envelope.gain.linearRampToValueAtTime(1, 0.1);
-        envelope.gain.linearRampToValueAtTime(0, 0.4);
-        // envelope.gain.exponentialRampToValueAtTime(1, 0.1);
-        // envelope.gain.exponentialRampToValueAtTime(0.01, 0.4);
-        envelope.connect(audioContext.destination);
-
-        analyzer = audioContext.createAnalyser();
-        analyzer.fftSize = 2 ** 15;
-        // osc.connect(analyzer);
-        envelope.connect(analyzer);
-
-
+    setVolume(percent) {
+      this.volumne.value = percent;
     }
 
-    class Engine {
-        constructor() {
-            const audioContext = new window.AudioContext();
-            const osc = audioContext.createOscillator();
-            const masterGain = audioContext.createGain();
-
-            osc.frequency.setValueAtTime(200, 0);
-            osc.connect(masterGain);
-            osc.start();
-
-            masterGain.gain.value = 0.2; // volume
-            masterGain.connect(audioContext.destination);
-
-            const lfo = audioContext.createOscillator(); // low frequency osci
-            lfo.frequency.setValueAtTime(30, 0);
-            const mod = audioContext.createGain();
-            mod.gain.value = 60;
-            lfo.connect(mod);
-            mod.connect(osc.frequency);
-            lfo.start();
-
-            this.volumne = masterGain.gain;
-            this.frequency = osc.frequency;
-
-            analyzer = audioContext.createAnalyser();
-            analyzer.fftSize = 2 ** 15;
-            masterGain.connect(analyzer);
-        }
-
-        setVolume(percent) {
-            this.volumne.value = percent;
-        }
-
-        setPitch(percent) {
-            this.frequency.setValueAtTime(percent * 200 + 100, 0);
-        }
+    setPitch(percent) {
+      this.frequency.setValueAtTime(percent * 200 + 100, 0);
     }
+  }
 </script>
 </body>
 </html>

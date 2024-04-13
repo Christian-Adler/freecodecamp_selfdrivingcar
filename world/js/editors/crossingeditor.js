@@ -1,13 +1,14 @@
 class CrossingEditor extends MarkingEditor {
-    constructor(viewport, world) {
-        super(viewport, world, world.graph.segments);
-    }
+  constructor(viewport, world) {
+    super(viewport, world, world.graph.segments);
+  }
 
-    createMarking(center, directionVector) {
-        return new Crossing(center, directionVector, this.world.roadWidth, this.world.roadWidth / 2);
-    }
-
-    getMarkingDistanceToSegmentEndThreshold() {
-        return this.world.roadWidth * 3 / 4;
-    }
+  createMarking(center, directionVector) {
+    return new Crossing(
+        center,
+        directionVector,
+        world.roadWidth,
+        world.roadWidth / 2
+    );
+  }
 }

@@ -1,24 +1,21 @@
 class Crossing extends Marking {
-    constructor(center, directionVector, width, height) {
-        super(center, directionVector, width, height);
-        this.borders = [this.polygon.segments[0], this.polygon.segments[2]];
-    }
+  constructor(center, directionVector, width, height) {
+    super(center, directionVector, width, height);
 
-    draw(ctx) {
-        // this.polygon.draw(ctx);
+    this.borders = [this.poly.segments[0], this.poly.segments[2]];
+    this.type = "crossing";
+  }
 
-        const perp = perpendicular(this.directionVector);
-        const line = new Segment(
-            add(this.center, scale(perp, this.width / 2)),
-            add(this.center, scale(perp, -this.width / 2)),
-        );
-
-        // noinspection JSSuspiciousNameCombination
-        line.draw(ctx, {width: this.height, dash: [11, 11], color: 'white'});
-
-        // // debug borders
-        // for (const border of this.borders) {
-        //     border.draw(ctx);
-        // }
-    }
+  draw(ctx) {
+    const perp = perpendicular(this.directionVector);
+    const line = new Segment(
+        add(this.center, scale(perp, this.width / 2)),
+        add(this.center, scale(perp, -this.width / 2))
+    );
+    line.draw(ctx, {
+      width: this.height,
+      color: "white",
+      dash: [11, 11]
+    });
+  }
 }
