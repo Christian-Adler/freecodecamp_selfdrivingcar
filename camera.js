@@ -27,9 +27,32 @@ class Camera {
 
   render(ctx, world) {
     const polys = world.buildings.map(b => b.base);
+
+    const projPolys = polys.map(poly => new Polygon(
+        poly.points.map(p => this.#projectPoint(ctx, p))
+    ));
+
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    for (const poly of projPolys) {
+      poly.draw(ctx);
+    }
     for (const poly of polys) {
       poly.draw(carCtx);
     }
+  }
+
+  #projectPoint(ctx, p) {
+    const seg = new Segment(this.center, this.tip);
+    const {point: p1} = seg.projectPoint(p);
+    const c = cross(subtract(p1, this), subtract(p, this));
+    const x = Math.sign(c) * distance(p, p1) / distance(this, p1);
+    const y = (-this.z / distance(this, p1));
+
+    const cX = ctx.canvas.width / 2;
+    const cY = ctx.canvas.height / 2;
+    const scaler = Math.min(cX, cY);
+    return new Point(cX + x * scaler, cY + y * scaler);
   }
 
   draw(ctx) {
@@ -39,5 +62,4 @@ class Camera {
     // this.right.draw(ctx);
     this.poly.draw(ctx);
   }
-
 }
