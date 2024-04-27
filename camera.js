@@ -25,8 +25,17 @@ class Camera {
     this.poly = new Polygon([this.center, this.left, this.right]);
   }
 
+  #filter(polys) {
+    const filteredPolys = [];
+    for (const poly of polys) {
+      if (this.poly.containsPoly(poly))
+        filteredPolys.push(poly);
+    }
+    return filteredPolys;
+  }
+
   render(ctx, world) {
-    const polys = world.buildings.map(b => b.base);
+    const polys = this.#filter(world.buildings.map(b => b.base));
 
     const projPolys = polys.map(poly => new Polygon(
         poly.points.map(p => this.#projectPoint(ctx, p))
@@ -62,4 +71,6 @@ class Camera {
     // this.right.draw(ctx);
     this.poly.draw(ctx);
   }
+
+
 }

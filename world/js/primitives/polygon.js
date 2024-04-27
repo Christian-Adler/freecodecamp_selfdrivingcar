@@ -89,6 +89,10 @@ class Polygon {
     return false;
   }
 
+  containsPoly(poly) {
+    return poly.points.filter(p => this.containsPoint(p)).length > 0;
+  }
+
   containsSegment(seg) {
     const midpoint = average(seg.p1, seg.p2);
     return this.containsPoint(midpoint);
@@ -103,7 +107,7 @@ class Polygon {
         intersectionCount++;
       }
     }
-    return intersectionCount % 2 == 1;
+    return intersectionCount % 2 === 1;
   }
 
   drawSegments(ctx) {
