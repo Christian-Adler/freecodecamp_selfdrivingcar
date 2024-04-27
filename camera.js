@@ -28,8 +28,9 @@ class Camera {
   #filter(polys) {
     const filteredPolys = [];
     for (const poly of polys) {
-      if (!this.poly.containsPoly(poly))
-        continue;
+      // too long straight lines don't have any point inside the camera triangle
+      // if (!this.poly.containsPoly(poly))
+      //   continue;
 
       if (poly.intersectsPoly(this.poly)) {
         const copy1 = new Polygon(poly.points);
@@ -38,7 +39,7 @@ class Camera {
         const points = copy1.segments.map(s => s.p1);
         const filteredPoints = points.filter(p => p.intersection || this.poly.containsPoint(p));
         filteredPolys.push(new Polygon(filteredPoints));
-      } else {
+      } else if (this.poly.containsPoly(poly)) {
         filteredPolys.push(poly);
       }
     }
@@ -71,6 +72,17 @@ class Camera {
         this.#filter(world.buildings.map(b => b.base)),
         200
     );
+
+    const roadPolys = this.#extrude(
+        this.#filter(world.corridor.borders.map(s => new Polygon([s.p1, s.p2]))),
+        10
+    );
+
+    // const treePolys = this.#extrude(
+    //     this.#filter(world.trees.map(b => b.base)),
+    //     200
+    // );
+
     const carPolys = this.#extrude(
         this.#filter(world.cars.map(c =>
                 new Polygon(c.polygon.map(p => new Point(p.x, p.y)))
@@ -79,7 +91,7 @@ class Camera {
         10
     );
 
-    const polys = [...buildingPolys, ...carPolys];
+    const polys = [...buildingPolys, ...roadPolys, ...carPolys];
     const projPolys = polys.map(poly => new Polygon(
         poly.points.map(p => this.#projectPoint(ctx, p))
     ));
