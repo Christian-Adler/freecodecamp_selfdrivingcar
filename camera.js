@@ -14,10 +14,22 @@ class Camera {
         this.x - this.range * Math.sin(this.angle),
         this.y - this.range * Math.cos(this.angle)
     );
+    this.left = new Point(
+        this.x - this.range * Math.sin(this.angle - Math.PI / 4),
+        this.y - this.range * Math.cos(this.angle - Math.PI / 4)
+    );
+    this.right = new Point(
+        this.x - this.range * Math.sin(this.angle + Math.PI / 4),
+        this.y - this.range * Math.cos(this.angle + Math.PI / 4)
+    );
+    this.poly = new Polygon([this.center, this.left, this.right]);
   }
 
   draw(ctx) {
-    this.center.draw(ctx, {color: "red"});
-    this.tip.draw(ctx);
+    // this.center.draw(ctx, {color: "red"});
+    // this.tip.draw(ctx);
+    // this.left.draw(ctx);
+    // this.right.draw(ctx);
+    this.poly.draw(ctx);
   }
 }
