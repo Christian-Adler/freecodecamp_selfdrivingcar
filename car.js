@@ -90,6 +90,8 @@ class Car {
   }
 
   #assessDamage(roadBorders, traffic) {
+    if (true)
+      return false; // for 3D view debugging
     for (let i = 0; i < roadBorders.length; i++) {
       if (polysIntersect(this.polygon, roadBorders[i])) {
         return true;

@@ -54,7 +54,7 @@ class Engine {
 
     osc.frequency.setValueAtTime(200, 0);
     osc.connect(masterGain);
-    osc.start();
+    // osc.start(); // for 3D View debbuging
 
     masterGain.gain.value = 0.2;
     masterGain.connect(audioContext.destination);
@@ -65,7 +65,7 @@ class Engine {
     mod.gain.value = 60;
     lfo.connect(mod);
     mod.connect(osc.frequency);
-    lfo.start();
+    // lfo.start(); // for 3D View debbuging
 
     this.volume = masterGain.gain;
     this.frequency = osc.frequency;
