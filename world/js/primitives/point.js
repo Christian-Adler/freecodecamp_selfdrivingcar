@@ -1,11 +1,12 @@
 class Point {
-  constructor(x, y) {
+  constructor(x, y, z = 0) {
     this.x = x;
     this.y = y;
+    this.z = z; // only for extruding buildings pseudo 3d - don't check it in equals!
   }
 
   equals(point) {
-    return this.x == point.x && this.y == point.y;
+    return this.x === point.x && this.y === point.y;
   }
 
   draw(ctx, {size = 18, color = "black", outline = false, fill = false} = {}) {
