@@ -67,7 +67,10 @@ class Camera {
   }
 
   render(ctx, world) {
-    const polys = this.#extrude(this.#filter(world.buildings.map(b => b.base)));
+    const polys = this.#extrude(
+        this.#filter(world.buildings.map(b => b.base)),
+        200
+    );
 
     const projPolys = polys.map(poly => new Polygon(
         poly.points.map(p => this.#projectPoint(ctx, p))
