@@ -28,8 +28,19 @@ class Camera {
   #filter(polys) {
     const filteredPolys = [];
     for (const poly of polys) {
-      if (this.poly.containsPoly(poly))
+      if (!this.poly.containsPoly(poly))
+        continue;
+
+      if (poly.intersectsPoly(this.poly)) {
+        const copy1 = new Polygon(poly.points);
+        const copy2 = new Polygon(this.poly.points);
+        Polygon.break(copy1, copy2, true);
+        const points = copy1.segments.map(s => s.p1);
+        const filteredPoints = points.filter(p => p.intersection || this.poly.containsPoint(p));
+        filteredPolys.push(new Polygon(filteredPoints));
+      } else {
         filteredPolys.push(poly);
+      }
     }
     return filteredPolys;
   }
