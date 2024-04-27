@@ -1,5 +1,5 @@
 class Camera {
-  constructor({x, y, angle}, range = 100) {
+  constructor({x, y, angle}, range = 1000) {
     this.range = range;
     this.z = -20;
     this.move({x, y, angle});
@@ -25,6 +25,13 @@ class Camera {
     this.poly = new Polygon([this.center, this.left, this.right]);
   }
 
+  render(ctx, world) {
+    const polys = world.buildings.map(b => b.base);
+    for (const poly of polys) {
+      poly.draw(carCtx);
+    }
+  }
+
   draw(ctx) {
     // this.center.draw(ctx, {color: "red"});
     // this.tip.draw(ctx);
@@ -32,4 +39,5 @@ class Camera {
     // this.right.draw(ctx);
     this.poly.draw(ctx);
   }
+
 }
