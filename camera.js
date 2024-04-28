@@ -106,10 +106,12 @@ class Camera {
     // );
 
     const carPolys = this.#extrude(
-        this.#filter(world.cars.map(c =>
-                new Polygon(c.polygon.map(p => new Point(p.x, p.y)))
-            )
-        ),
+        // all cars
+        // this.#filter(world.cars.map(c =>
+        //         new Polygon(c.polygon.map(p => new Point(p.x, p.y)))
+        //     )
+        // ),
+        [new Polygon(world.bestCar.polygon.map(p => new Point(p.x, p.y)))],
         10
     );
 
