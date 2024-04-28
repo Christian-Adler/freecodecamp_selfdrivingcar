@@ -67,7 +67,7 @@ class Camera {
     return extrudedPolys;
   }
 
-  render(ctx, world) {
+  #getPolys(world) {
     const buildingPolys = this.#extrude(
         this.#filter(world.buildings.map(b => b.base)),
         200
@@ -91,7 +91,12 @@ class Camera {
         10
     );
 
-    const polys = [...buildingPolys, ...roadPolys, ...carPolys];
+    return [...buildingPolys, ...roadPolys, ...carPolys];
+  }
+
+  render(ctx, world) {
+    const polys = this.#getPolys(world);
+
     const projPolys = polys.map(poly => new Polygon(
         poly.points.map(p => this.#projectPoint(ctx, p))
     ));
@@ -101,10 +106,13 @@ class Camera {
     for (const poly of projPolys) {
       poly.draw(ctx);
     }
-    for (const poly of polys) {
-      poly.draw(carCtx);
-    }
+
+    // soround polys on 2d for develop
+    // for (const poly of polys) {
+    //   poly.draw(carCtx);
+    // }
   }
+
 
   #projectPoint(ctx, p) {
     const seg = new Segment(this.center, this.tip);
