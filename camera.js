@@ -3,10 +3,31 @@ class Camera {
     this.range = range;
     this.distanceBehind = distanceBehind;
     this.z = -40;
-    this.move({x, y, angle});
+    this.moveSimple({x, y, angle});
   }
 
   move({x, y, angle}) {
+    const t = 0.1;
+    this.x = lerp(this.x, x + this.distanceBehind * Math.sin(angle), t);
+    this.y = lerp(this.y, y + this.distanceBehind * Math.cos(angle), t);
+    this.angle = lerp(this.angle, angle, t);
+    this.center = new Point(this.x, this.y);
+    this.tip = new Point(
+        this.x - this.range * Math.sin(this.angle),
+        this.y - this.range * Math.cos(this.angle)
+    );
+    this.left = new Point(
+        this.x - this.range * Math.sin(this.angle - Math.PI / 4),
+        this.y - this.range * Math.cos(this.angle - Math.PI / 4)
+    );
+    this.right = new Point(
+        this.x - this.range * Math.sin(this.angle + Math.PI / 4),
+        this.y - this.range * Math.cos(this.angle + Math.PI / 4)
+    );
+    this.poly = new Polygon([this.center, this.left, this.right]);
+  }
+
+  moveSimple({x, y, angle}) {
     this.x = x + this.distanceBehind * Math.sin(angle);
     this.y = y + this.distanceBehind * Math.cos(angle);
     this.angle = angle;
