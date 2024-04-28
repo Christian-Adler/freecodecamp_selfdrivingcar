@@ -1,13 +1,14 @@
 class Camera {
-  constructor({x, y, angle}, range = 1000) {
+  constructor({x, y, angle}, range = 1000, distanceBehind = 150) {
     this.range = range;
-    this.z = -20;
+    this.distanceBehind = distanceBehind;
+    this.z = -40;
     this.move({x, y, angle});
   }
 
   move({x, y, angle}) {
-    this.x = x;
-    this.y = y;
+    this.x = x + this.distanceBehind * Math.sin(angle);
+    this.y = y + this.distanceBehind * Math.cos(angle);
     this.angle = angle;
     this.center = new Point(this.x, this.y);
     this.tip = new Point(
