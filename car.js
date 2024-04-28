@@ -16,7 +16,7 @@ class Car {
 
     this.fittness = 0;
 
-    this.useBrain = controlType == "AI";
+    this.useBrain = controlType === "AI";
 
     if (controlType !== "DUMMY") {
       this.sensor = new Sensor(this);
@@ -42,6 +42,8 @@ class Car {
       maskCtx.globalCompositeOperation = "destination-atop";
       maskCtx.drawImage(this.img, 0, 0, this.width, this.height);
     }
+
+    this.update([], []);
   }
 
   load(info) {
@@ -90,7 +92,7 @@ class Car {
   }
 
   #assessDamage(roadBorders, traffic) {
-    if (true)
+    if (Settings.enableDebugMode)
       return false; // for 3D view debugging
     for (let i = 0; i < roadBorders.length; i++) {
       if (polysIntersect(this.polygon, roadBorders[i])) {

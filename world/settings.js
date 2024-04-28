@@ -4,6 +4,7 @@ const Settings = {
   mutationFactor: 0.05,
   controlType: 'AI', // one of AI, KEYS, DUMMY
   worldGenerateTreesTryCount: 100, // 10 for quick
+  enableDebugMode: false, // if true disable damage and sound
 };
 
 function elById(id) {
