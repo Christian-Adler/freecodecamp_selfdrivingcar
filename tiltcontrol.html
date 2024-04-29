@@ -20,9 +20,9 @@
   const canvas = document.getElementById('myCanvas');
   const ctx = canvas.getContext('2d');
 
-  let rotation = Math.PI / 4;
+  let rotation = 0; //Math.PI / 4;
 
-  const controls = new PhoneControls();
+  const controls = new PhoneControls(canvas);
 
   animate();
 
