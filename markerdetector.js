@@ -3,6 +3,13 @@ class MarkerDetector {
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d");
     document.body.appendChild(this.canvas);
+
+    this.threshold = document.createElement("input");
+    this.threshold.type = 'range';
+    this.threshold.min = '0';
+    this.threshold.max = '255';
+    this.threshold.value = '50';
+    document.body.appendChild(this.threshold);
   }
 
   detect(imgData) {
@@ -15,7 +22,7 @@ class MarkerDetector {
 
       // const blueness = b - Math.max(r, g);
       const blueness = g - Math.max(r, b); // greenness - was much better detectable in my room
-      if (blueness > 0) {
+      if (blueness > this.threshold.value) {
         const pIndex = i / 4;
         const y = Math.floor(pIndex / imgData.width);
         const x = pIndex % imgData.width;
