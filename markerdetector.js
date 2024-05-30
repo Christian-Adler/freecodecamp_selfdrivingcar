@@ -42,14 +42,20 @@ class MarkerDetector {
       }
     }
 
-    const first = points[0];
-    const second = points[points.length - 1];
+    let centroid1 = points[0];
+    let centroid2 = points[points.length - 1];
 
-    const group1 = points.filter(p => distance(p, first) < distance(p, second));
-    const group2 = points.filter(p => distance(p, first) >= distance(p, second));
+    let group1 = [];
+    let group2 = [];
 
-    const centroid1 = this.#averagePoints(group1);
-    const centroid2 = this.#averagePoints(group2);
+    for (let i = 0; i < 10; i++) {
+      group1 = points.filter(p => distance(p, centroid1) < distance(p, centroid2));
+      group2 = points.filter(p => distance(p, centroid1) >= distance(p, centroid2));
+
+      centroid1 = this.#averagePoints(group1);
+      centroid2 = this.#averagePoints(group2);
+    }
+
     const size1 = Math.sqrt(group1.length);
     const size2 = Math.sqrt(group2.length);
     const radius1 = size1 / 2;
@@ -87,6 +93,14 @@ class MarkerDetector {
       const y = points[i].blueness;
       const x = this.canvas.width * i / points.length;
       this.ctx.fillRect(x, y, 1, 1,);
+    }
+
+    const marker1 = {centroid: centroid1, points: group1, radius: radius1};
+    const marker2 = {centroid: centroid1, points: group2, radius: radius2};
+
+    return {
+      leftMarker: centroid1.x < centroid2.x ? marker1 : marker2,
+      rightMarker: centroid1.x < centroid2.x ? marker2 : marker1,
     }
   }
 }
