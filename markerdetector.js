@@ -23,10 +23,18 @@ class MarkerDetector {
     }
 
     this.canvas.width = imgData.width;
-    this.canvas.height = imgData.height;
+    this.canvas.height = imgData.height + 255;
     for (const point of points) {
       this.ctx.globalAlpha = point.blueness / 255;
       this.ctx.fillRect(point.x, point.y, 1, 1,);
+    }
+
+    this.ctx.globalAlpha = 1;
+    this.ctx.translate(0, imgData.height);
+    for (let i = 0; i < points.length; i++) {
+      const y = points[i].blueness;
+      const x = this.canvas.width * i / points.length;
+      this.ctx.fillRect(x, y, 1, 1,);
     }
   }
 }
