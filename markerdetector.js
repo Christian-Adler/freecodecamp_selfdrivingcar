@@ -13,7 +13,8 @@ class MarkerDetector {
       const b = imgData.data[i + 2];
       // +4 = alpha (always 255
 
-      const blueness = b - Math.max(r, g);
+      // const blueness = b - Math.max(r, g);
+      const blueness = g - Math.max(r, b); // greenness - was much better detectable in my room
       if (blueness > 0) {
         const pIndex = i / 4;
         const y = Math.floor(pIndex / imgData.width);
