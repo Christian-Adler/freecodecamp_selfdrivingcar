@@ -1,15 +1,15 @@
 class MarkerDetector {
   constructor() {
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    document.body.appendChild(this.canvas);
+    // this.canvas = document.createElement("canvas");
+    // this.ctx = this.canvas.getContext("2d");
+    // document.body.appendChild(this.canvas);
 
     this.threshold = document.createElement("input");
     this.threshold.type = 'range';
     this.threshold.min = '0';
     this.threshold.max = '255';
     this.threshold.value = '60';
-    document.body.appendChild(this.threshold);
+    // document.body.appendChild(this.threshold);
   }
 
   #averagePoints(points) {
@@ -61,39 +61,39 @@ class MarkerDetector {
     const radius1 = size1 / 2;
     const radius2 = size2 / 2;
 
-    this.canvas.width = imgData.width;
-    this.canvas.height = imgData.height + 255;
-
-    this.ctx.fillStyle = 'red';
-    for (const point of group1) {
-      this.ctx.globalAlpha = point.blueness / 255;
-      this.ctx.fillRect(point.x, point.y, 1, 1,);
-    }
-    this.ctx.fillStyle = 'blue';
-    for (const point of group2) {
-      this.ctx.globalAlpha = point.blueness / 255;
-      this.ctx.fillRect(point.x, point.y, 1, 1,);
-    }
-
-    this.ctx.globalAlpha = 1;
-
-    this.ctx.beginPath();
-    this.ctx.arc(centroid1.x, centroid1.y, radius1, 0, Math.PI * 2);
-    this.ctx.stroke();
-
-    this.ctx.beginPath();
-    this.ctx.arc(centroid2.x, centroid2.y, radius2, 0, Math.PI * 2);
-    this.ctx.stroke();
-
-
-    points.sort((a, b) => b.blueness - a.blueness);
-
-    this.ctx.translate(0, imgData.height);
-    for (let i = 0; i < points.length; i++) {
-      const y = points[i].blueness;
-      const x = this.canvas.width * i / points.length;
-      this.ctx.fillRect(x, y, 1, 1,);
-    }
+    // this.canvas.width = imgData.width;
+    // this.canvas.height = imgData.height + 255;
+    //
+    // this.ctx.fillStyle = 'red';
+    // for (const point of group1) {
+    //   this.ctx.globalAlpha = point.blueness / 255;
+    //   this.ctx.fillRect(point.x, point.y, 1, 1,);
+    // }
+    // this.ctx.fillStyle = 'blue';
+    // for (const point of group2) {
+    //   this.ctx.globalAlpha = point.blueness / 255;
+    //   this.ctx.fillRect(point.x, point.y, 1, 1,);
+    // }
+    //
+    // this.ctx.globalAlpha = 1;
+    //
+    // this.ctx.beginPath();
+    // this.ctx.arc(centroid1.x, centroid1.y, radius1, 0, Math.PI * 2);
+    // this.ctx.stroke();
+    //
+    // this.ctx.beginPath();
+    // this.ctx.arc(centroid2.x, centroid2.y, radius2, 0, Math.PI * 2);
+    // this.ctx.stroke();
+    //
+    //
+    // points.sort((a, b) => b.blueness - a.blueness);
+    //
+    // this.ctx.translate(0, imgData.height);
+    // for (let i = 0; i < points.length; i++) {
+    //   const y = points[i].blueness;
+    //   const x = this.canvas.width * i / points.length;
+    //   this.ctx.fillRect(x, y, 1, 1,);
+    // }
 
     const marker1 = {centroid: centroid1, points: group1, radius: radius1};
     const marker2 = {centroid: centroid1, points: group2, radius: radius2};
