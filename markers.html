@@ -15,13 +15,21 @@
 </head>
 <body>
 <canvas id="myCanvas"></canvas>
+<script src="markerdetector.js"></script>
 <script>
   const video = document.createElement('video');
   const canvas = document.querySelector("#myCanvas");
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', {willReadFrequently: true});
+
+
+  const markerDetector = new MarkerDetector();
 
   function loop() {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    markerDetector.detect(imgData);
+
     requestAnimationFrame(loop);
   }
 
