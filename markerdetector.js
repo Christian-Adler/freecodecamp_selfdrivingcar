@@ -25,6 +25,7 @@ class MarkerDetector {
     this.canvas.width = imgData.width;
     this.canvas.height = imgData.height;
     for (const point of points) {
+      this.ctx.globalAlpha = point.blueness / 255;
       this.ctx.fillRect(point.x, point.y, 1, 1,);
     }
   }
