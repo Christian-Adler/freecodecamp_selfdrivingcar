@@ -14,10 +14,9 @@
     </style>
 </head>
 <body>
-<video id="myVid"></video>
 <canvas id="myCanvas"></canvas>
 <script>
-  const video = document.querySelector("#myVid");
+  const video = document.createElement('video');
   const canvas = document.querySelector("#myCanvas");
   const ctx = canvas.getContext('2d');
 
