@@ -29,6 +29,8 @@ class MarkerDetector {
       this.ctx.fillRect(point.x, point.y, 1, 1,);
     }
 
+    points.sort((a, b) => b.blueness - a.blueness);
+
     this.ctx.globalAlpha = 1;
     this.ctx.translate(0, imgData.height);
     for (let i = 0; i < points.length; i++) {
