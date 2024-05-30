@@ -12,6 +12,18 @@ class MarkerDetector {
     document.body.appendChild(this.threshold);
   }
 
+  #averagePoints(points) {
+    const center = {x: 0, y: 0};
+    for (const point of points) {
+      center.x += point.x;
+      center.y += point.y;
+    }
+    center.x /= points.length;
+    center.y /= points.length;
+
+    return center;
+  }
+
   detect(imgData) {
     const points = [];
     for (let i = 0; i < imgData.data.length; i += 4) {
@@ -30,6 +42,8 @@ class MarkerDetector {
       }
     }
 
+    const centroid = this.#averagePoints(points);
+
     this.canvas.width = imgData.width;
     this.canvas.height = imgData.height + 255;
     for (const point of points) {
@@ -37,9 +51,15 @@ class MarkerDetector {
       this.ctx.fillRect(point.x, point.y, 1, 1,);
     }
 
+    this.ctx.globalAlpha = 1;
+
+    this.ctx.beginPath();
+    this.ctx.arc(centroid.x, centroid.y, 100, 0, Math.PI * 2);
+    this.ctx.stroke();
+
+
     points.sort((a, b) => b.blueness - a.blueness);
 
-    this.ctx.globalAlpha = 1;
     this.ctx.translate(0, imgData.height);
     for (let i = 0; i < points.length; i++) {
       const y = points[i].blueness;
