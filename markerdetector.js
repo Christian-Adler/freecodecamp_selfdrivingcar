@@ -43,6 +43,8 @@ class MarkerDetector {
     }
 
     const centroid = this.#averagePoints(points);
+    const size = Math.sqrt(points.length);
+    const radius = size / 2;
 
     this.canvas.width = imgData.width;
     this.canvas.height = imgData.height + 255;
@@ -54,7 +56,7 @@ class MarkerDetector {
     this.ctx.globalAlpha = 1;
 
     this.ctx.beginPath();
-    this.ctx.arc(centroid.x, centroid.y, 100, 0, Math.PI * 2);
+    this.ctx.arc(centroid.x, centroid.y, radius, 0, Math.PI * 2);
     this.ctx.stroke();
 
 
