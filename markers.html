@@ -29,7 +29,17 @@
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-    markerDetector.detect(imgData);
+    const res = markerDetector.detect(imgData);
+    if (res) {
+      ctx.fillStyle = 'red';
+      for (const point of res.leftMarker.points) {
+        ctx.fillRect(point.x, point.y, 1, 1);
+      }
+      ctx.fillStyle = 'blue';
+      for (const point of res.rightMarker.points) {
+        ctx.fillRect(point.x, point.y, 1, 1);
+      }
+    }
 
     requestAnimationFrame(loop);
   }
